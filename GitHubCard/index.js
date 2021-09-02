@@ -28,7 +28,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -48,6 +48,86 @@ const followersArray = [];
         <p>Bio: {users bio}</p>
       </div>
     </div>
+*/
+
+const cardsDiv = document.querySelector('.cards');
+
+function cardMaker(user){
+  // instantiating elements
+  const userCard = document.createElement('div')
+  const userImg = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const cardName = document.createElement('h3')
+  const userName = document.createElement('p')
+  const location = document.createElement('p')
+  const userProfile = document.createElement('p')
+  const profileLink = document.createElement('a')
+  const userFollowers = document.createElement('p')
+  const userFollowing = document.createElement('p')
+  const userBio = document.createElement('p')
+
+  // class names, attributes, text
+  userCard.classList.add('card')
+  userImg.src = `${user.avatar_url}`
+  cardInfo.classList.add('card-info')
+  cardName.classList.add('name')
+  cardName.textContent = `${user.name}`
+  userName.classList.add('username')
+  userName.textContent = `${user.login}`
+  location.textContent = `Location: ${user.location}`
+  userProfile.textContent = `Profile: ${profileLink}`
+  profileLink.href = `${user}.url`
+  profileLink.textContent = `github.com/${userName}`
+  userFollowers.textContent = `Followers: ${user.followers}`
+  userFollowing.textContent = `Following: ${user.following}`
+  userBio.textContent = `Bio: ${user.bio}`
+
+  // structure
+  userCard.appendChild(userImg)
+  userCard.appendChild(cardInfo)
+  cardInfo.appendChild(cardName)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(userProfile)
+  userProfile.appendChild(profileLink)
+  cardInfo.appendChild(userFollowers)
+  cardInfo.appendChild(userFollowing)
+  cardInfo.appendChild(userBio)
+
+  return userCard
+}
+
+// axios.get(`https://api.github.com/users/monicasalas86`)
+// .then(resp => {
+//   // console.log(resp.data);
+//   const gitCard = cardMaker(resp.data);
+  
+// })
+// .catch(err => console.log(err))
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+function getUser(user){
+  axios.get(`https://api.github.com/users/${user}`)
+  .then(resp => {
+    const gitCard = cardMaker(resp.data);
+    cardsDiv.appendChild(gitCard);
+  })
+  .catch(err => {
+    console.log('this is an error')
+  })
+}
+followersArray.forEach(follower => {
+  getUser(follower)
+})
+
+
+/*
+1. create getUser function take in param user
+2. in function c & p 100-106 
+3. refactor axios call with ${user} 
+4. loop over followersArray
+5. pass names to getUser function
 */
 
 /*
